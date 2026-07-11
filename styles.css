@@ -25,7 +25,8 @@
     
     /* Text Colors */
     --text-primary: #333333;           /* Main text */
-    --text-muted: #B0B0B0;             /* Secondary text */
+    --text-secondary: #465063;         /* Readable slate for body/descriptions */
+    --text-muted: #B0B0B0;             /* Low-emphasis text */
     --text-light: #E5E7EB;             /* Very light text */
     
     /* Border Colors */
@@ -1027,6 +1028,26 @@ ul {
     min-height: 50vh;
     margin-top: 90px;
 }
+
+/* Cleaner deep-navy overlay for inner-page banners — avoids the muddy
+   purple the homepage's directional gradient makes over the red vessel */
+.hero-small .hero-overlay {
+    background: linear-gradient(95deg, rgba(2, 4, 48, 0.93) 0%, rgba(4, 7, 66, 0.82) 100%);
+}
+
+/* Lighter banner overlay so the photo reads through, while keeping the
+   left-aligned heading legible (Policies team photo, Services engine) */
+.hero-policies .hero-overlay,
+.hero-services .hero-overlay,
+.hero-work .hero-overlay {
+    background: linear-gradient(100deg, rgba(2, 4, 48, 0.82) 0%, rgba(4, 7, 66, 0.52) 58%, rgba(6, 10, 80, 0.42) 100%);
+}
+
+/* About banner: lightened a little, but kept a touch deeper so the red
+   vessel doesn't read as muddy purple */
+.hero-about .hero-overlay {
+    background: linear-gradient(100deg, rgba(2, 4, 48, 0.86) 0%, rgba(4, 7, 66, 0.66) 60%, rgba(6, 10, 80, 0.56) 100%);
+}
 .form-heading{
     margin-bottom: 24px;
     font-weight: 600;
@@ -1572,7 +1593,7 @@ ul {
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 20px;
-    text-align: justify;
+    text-align: left;
 }
 
 .policy-content p:last-child {
@@ -1949,7 +1970,16 @@ ul {
     color: var(--navy);
     font-size: 38px;
     font-weight: 600;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+}
+
+.about-text h2::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: 16px;
+    background: var(--navy);
 }
 
 .about-text p {
@@ -1957,7 +1987,7 @@ ul {
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 20px;
-    text-align: justify;
+    text-align: left;
 }
 
 /* Mission, Vision & Values Section */
@@ -1974,21 +2004,33 @@ ul {
 
 .mvv-card {
     background-color: var(--white);
-    padding: 40px 32px;
-    border-radius: 8px;
+    padding: 38px 32px;
+    border-radius: 14px;
     border: 1px solid var(--border-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.mvv-card:hover {
+    border-color: transparent;
+    box-shadow: 0 16px 38px rgba(0, 0, 40, 0.10);
+    transform: translateY(-6px);
 }
 
 .mvv-icon {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     background-color: var(--navy);
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     color: var(--white);
+}
+
+.mvv-icon svg {
+    width: 26px;
+    height: 26px;
 }
 
 .mvv-card h3 {
@@ -2055,15 +2097,15 @@ ul {
 
 .objective-card {
     background-color: var(--soft-gray);
-    padding: 36px 28px;
-    border-radius: 8px;
+    padding: 34px 30px;
+    border-radius: 14px;
     border: 1px solid var(--border-light);
-    transition: var(--transition-smooth);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .objective-card:hover {
-    border-color: var(--navy);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: transparent;
+    box-shadow: 0 16px 38px rgba(0, 0, 40, 0.10);
     transform: translateY(-6px);
 }
 
@@ -2071,12 +2113,17 @@ ul {
     width: 56px;
     height: 56px;
     background-color: var(--navy);
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     color: var(--white);
+}
+
+.objective-icon svg {
+    width: 26px;
+    height: 26px;
 }
 
 .objective-card h3 {
@@ -2209,7 +2256,7 @@ ul {
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 24px;
-    text-align: justify;
+    text-align: left;
 }
 
 .policies-commitment-content .btn {
