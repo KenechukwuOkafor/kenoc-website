@@ -12,3 +12,7 @@ desktop.ini
 # Logs / temp
 *.log
 *.tmp
+
+# Local dev tooling (CDP preview agent) — not part of the website
+node_modules/
+agent/

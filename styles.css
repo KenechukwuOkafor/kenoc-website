@@ -16,8 +16,10 @@
    CSS VARIABLES - Update these to change colors site-wide
    ============================================ */
 :root {
-    /* Primary Colors */
-    --navy: #000080;                    /* Main brand color */
+    /* Primary Colors — navy + white system (orange lives only in the logo) */
+    --navy: #000080;                    /* Main brand color / CTAs */
+    --navy-deep: #05082B;               /* Deep navy for hero gradient */
+    --steel: #E9ECF5;                   /* Cool light neutral / hairlines */
     --white: #FFFFFF;                   /* Base background */
     --soft-gray: #F7F8FA;              /* Structural background */
     
@@ -145,6 +147,11 @@ ul {
     transition: box-shadow 0.3s ease;
 }
 
+/* Subtle shadow once scrolled */
+.site-header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -165,9 +172,10 @@ ul {
 }
 
 .main-nav a {
-    color:#000080;
+    color: var(--navy);
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
+    letter-spacing: 0.005em;
     padding: 8px 0;
     position: relative;
 }
@@ -196,17 +204,19 @@ ul {
 }
 
 .btn-header {
-    background-color: #000080;
+    background-color: var(--navy);
     color: var(--white);
-    padding: 10px 28px !important;
+    padding: 11px 26px !important;
     font-size: 15px;
     font-weight: 600;
     border-radius: 10px !important;
-    transition: var(--transition-smooth);
+    box-shadow: 0 4px 14px rgba(0, 0, 60, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn-header:hover {
-    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 60, 0.26);
 }
 
 /* Mobile Menu Toggle - Hidden on desktop */
@@ -239,7 +249,7 @@ ul {
     align-items: center;
     color: var(--white);
     overflow: hidden;
-    margin-top: 90px;                  /* Space for fixed header */
+    margin-top: 90px;                  /* Space for fixed white header */
 }
 
 /* Hero Background Image */
@@ -256,14 +266,27 @@ ul {
     background-repeat: no-repeat;
 }
 
-/* Navy Overlay - For text readability */
+/* Navy Overlay - Directional gradient: dark on the left for text
+   readability, clearing toward the right so the vessel shows through */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 128, 0.75);  /* Navy with 75% opacity */
+    background:
+        linear-gradient(
+            100deg,
+            rgba(0, 0, 55, 0.92) 0%,
+            rgba(0, 0, 75, 0.80) 38%,
+            rgba(0, 0, 90, 0.50) 70%,
+            rgba(0, 0, 100, 0.34) 100%
+        ),
+        linear-gradient(
+            to top,
+            rgba(0, 0, 40, 0.55) 0%,
+            rgba(0, 0, 40, 0) 30%
+        );
 }
 
 /* Hero Content - Text on left side */
@@ -277,12 +300,15 @@ ul {
 .hero h1 {
     color: var(--white);
     margin-bottom: 24px;
+    text-shadow: 0 2px 18px rgba(0, 0, 30, 0.35);
 }
 
 .hero p {
     color: var(--white);
-    margin-bottom: 36px;
+    margin-bottom: 32px;
     opacity: 0.95;
+    max-width: 620px;
+    text-shadow: 0 1px 10px rgba(0, 0, 30, 0.3);
 }
 
 /* Hero CTA Buttons */
@@ -290,6 +316,37 @@ ul {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+}
+
+/* Hero CTA hierarchy — solid white primary (navy text) + outlined secondary */
+.hero-cta .btn-primary {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--navy);
+    box-shadow: 0 10px 30px rgba(0, 0, 25, 0.28);
+}
+
+.hero-cta .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.9);
+    color: var(--navy);
+    transform: translateY(-2px);
+}
+
+.hero-cta .btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+/* Hero content animates in on load — never left stuck invisible if JS
+   does not run, unlike the scroll-triggered .fade-in used elsewhere */
+.hero .hero-content.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroIn 0.9s ease 0.15s forwards;
+}
+
+@keyframes heroIn {
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================
@@ -350,14 +407,24 @@ ul {
 
 .intro-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 60px;
-    align-items: start;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;               /* balance the two columns vertically */
 }
 
 .intro-text h2 {
     color: var(--navy);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+}
+
+/* Short structural rule under the section heading */
+.intro-text h2::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: 16px;
+    background: var(--navy);
 }
 
 .intro-text p {
@@ -381,32 +448,38 @@ ul {
     content: " →";
 }
 
-/* Stats Cards */
-.intro-stats {
-    display: grid;
-    gap: 20px;
+/* Who We Are — real workshop photograph */
+.intro-media {
+    margin: 0;
 }
 
-.stat-card {
-    padding: 28px 24px;
-    background-color: var(--soft-gray);
-    border-radius: 8px;
-    border-left: 4px solid var(--navy);
+.intro-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 24px 55px rgba(0, 0, 60, 0.16);
 }
 
-.stat-number {
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 6px;
+.intro-media figcaption {
+    display: flex;
+    align-items: flex-start;           /* anchor tick to the first line */
+    gap: 10px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    color: #6B7288;
 }
 
-.stat-label {
-    font-size: 14px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
+.intro-media figcaption::before {
+    content: '';
+    flex: 0 0 auto;
+    width: 20px;
+    height: 2px;
+    margin-top: 9px;                    /* line up with the first line's centre */
+    background: var(--navy);
 }
 
 /* ============================================
@@ -441,46 +514,71 @@ ul {
 
 /* Service Card - ONLY element with bounce animation */
 .service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     background-color: var(--white);
-    padding: 36px 28px;
-    border-radius: 8px;
+    padding: 34px 30px;
+    border-radius: 14px;
     border: 1px solid var(--border-light);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .service-card:hover {
-    border-color: var(--navy);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    transform: translateY(-6px);       /* Bounce effect on cards only */
+    border-color: transparent;
+    box-shadow: 0 16px 38px rgba(0, 0, 40, 0.10);
+    transform: translateY(-6px);
 }
 
-.service-number {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 16px;
-    letter-spacing: 1px;
+/* Icon tile replaces the (non-sequential) numbering */
+.service-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--navy);
+    color: var(--white);
+    margin-bottom: 22px;
+}
+
+.service-icon svg {
+    width: 26px;
+    height: 26px;
 }
 
 .service-card h3 {
     color: var(--navy);
+    font-size: 20px;
     margin-bottom: 12px;
 }
 
 .service-card p {
-    color: var(--text-muted);
-    font-size: 16px;
-    margin-bottom: 16px;
+    color: #465063;                    /* darker than muted for legibility */
+    font-size: 15.5px;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
 
+/* margin-top:auto bottom-aligns the link across cards of unequal height */
 .service-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--navy);
     font-weight: 600;
     font-size: 15px;
 }
 
-.service-link:hover {
-    opacity: 0.8;
+.service-link::after {
+    content: '\2192';
+    transition: transform 0.25s ease;
+}
+
+.service-link:hover::after {
+    transform: translateX(4px);
 }
 
 /* ============================================
@@ -488,7 +586,7 @@ ul {
    UPDATE: Replace placeholder divs with actual images
    ============================================ */
 .work-showcase {
-    padding: 100px 0;
+    padding: 50px 0 100px;
     background-color: var(--white);
 }
 
@@ -496,14 +594,23 @@ ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 28px;
-    margin-bottom: 50px;
+    margin-bottom: 48px;
 }
 
 .work-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
     border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.work-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(0, 0, 40, 0.10);
+    border-color: transparent;
 }
 
 .work-image {
@@ -512,7 +619,34 @@ ul {
     aspect-ratio: 4/3;
 }
 
-/* Image Placeholder - REPLACE with actual images */
+.work-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.work-item:hover .work-image img {
+    transform: scale(1.05);
+}
+
+.work-body {
+    padding: 22px 26px 26px;
+}
+
+.work-title {
+    color: var(--navy);
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.work-desc {
+    color: #465063;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Legacy placeholder kept for other pages that still reference it */
 .image-placeholder {
     width: 100%;
     height: 100%;
@@ -523,22 +657,6 @@ ul {
     color: var(--text-muted);
     font-size: 16px;
     font-weight: 500;
-}
-
-/* When you add real images, they'll look like this:
-.work-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-*/
-
-.work-caption {
-    padding: 20px;
-    background-color: var(--white);
-    font-size: 18px;
-    font-weight: 500;
-    color: #000080;
 }
 
 .work-cta {
@@ -568,8 +686,16 @@ ul {
 
 .why-choose-content h2 {
     color: var(--navy);
-    margin-bottom: 50px;
+    margin-bottom: 14px;
     text-align: center;
+}
+
+.why-choose-sub {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 620px;
+    margin: 0 auto 50px;
 }
 
 /* Features Grid */
@@ -579,41 +705,48 @@ ul {
     gap: 28px;
 }
 
-/* Feature Card - Has bounce animation like service cards */
+/* Feature Card - matches the What We Do service cards */
 .feature-card {
-    padding: 36px 28px;
+    padding: 34px 30px;
     background-color: var(--white);
-    border-radius: 8px;
+    border-radius: 14px;
     border: 1px solid var(--border-light);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .feature-card:hover {
-    border-color: var(--navy);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    transform: translateY(-6px);       /* Bounce effect on cards only */
+    border-color: transparent;
+    box-shadow: 0 16px 38px rgba(0, 0, 40, 0.10);
+    transform: translateY(-6px);
 }
 
 .feature-icon {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     background-color: var(--navy);
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     color: var(--white);
+}
+
+.feature-icon svg {
+    width: 26px;
+    height: 26px;
 }
 
 .feature-card h3 {
     color: var(--navy);
+    font-size: 20px;
     margin-bottom: 10px;
 }
 
 .feature-card p {
-    color: var(--text-muted);
-    font-size: 16px;
+    color: #465063;                    /* readable, matches service cards */
+    font-size: 15.5px;
+    line-height: 1.6;
 }
 
 /* ============================================
@@ -787,7 +920,12 @@ ul {
         min-height: 70vh;
         margin-top: 70px;
     }
-    
+
+    /* Mobile: original flat blue overlay (not the desktop directional gradient) */
+    .hero-overlay {
+        background: rgba(0, 0, 128, 0.75);
+    }
+
     h1 {
         font-size: 36px;
     }
@@ -1215,23 +1353,23 @@ ul {
 
 /* Section & Header Styling */
 .trusted-section {
-  padding: 60px 0;
-  background-color: #ffffff;
-  font-family: sans-serif;
+  padding: 60px 0 40px;
+  background-color: var(--white);
 }
 
+/* Intentional uppercase trust label rather than a timid heading */
 .trusted-header {
   text-align: center;
-  font-size: 1.5rem;
-  color:#000080;
-  margin-bottom: 40px;
+  font-size: 13px;
+  color: #838BA3;
+  margin-bottom: 38px;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-/* Slider logic from before */
 .logo-slider {
-  height: 100px;
+  height: 84px;
   margin: auto;
   overflow: hidden;
   position: relative;
@@ -1241,11 +1379,11 @@ ul {
 /* Fading edges */
 .logo-slider::before,
 .logo-slider::after {
-  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to right, var(--white) 0%, rgba(255, 255, 255, 0) 100%);
   content: "";
-  height: 100px;
+  height: 84px;
   position: absolute;
-  width: 15%; /* Percentage based for better scaling */
+  width: 12%;
   z-index: 2;
 }
 
@@ -1262,43 +1400,56 @@ ul {
 
 .logo-slide-track {
   display: flex;
-  width: calc(250px * 20);
+  width: calc(190px * 20);
   animation: scroll 40s linear infinite;
 }
 
+/* Pause the marquee while a visitor inspects it */
+.logo-slider:hover .logo-slide-track {
+  animation-play-state: paused;
+}
+
 .slide {
-  height: 130px;
-  width: 250px;
+  height: 84px;
+  width: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Monochrome by default so the mismatched logos read as one set;
+   uniform box (contain) scales small logos up so all read the same size */
 .slide img {
-  width: 150px; 
-  height: 50px;
+  width: 150px;
+  height: 64px;
   object-fit: contain;
-  
-  opacity: 0.7;
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.logo-slider:hover .slide img {
+  filter: grayscale(0);
+  opacity: 1;
 }
 
 @keyframes scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-250px * 10)); }
+  100% { transform: translateX(calc(-190px * 10)); }
 }
 
-/* Mobile: Show 2 at a time */
+/* Mobile */
 @media screen and (max-width: 768px) {
   .slide {
-    width: 50vw; 
+    width: 46vw;
   }
   .logo-slide-track {
-    width: calc(50vw * 20);
-    animation: scroll-mobile 25s linear infinite; /* Slightly slower for small screens */
+    width: calc(46vw * 20);
+    animation: scroll-mobile 25s linear infinite;
   }
   @keyframes scroll-mobile {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50vw * 10)); }
+    100% { transform: translateX(calc(-46vw * 10)); }
   }
 }
 

@@ -132,12 +132,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', function() {
         const currentScroll = window.pageYOffset;
-        
-        // Add shadow when scrolled past 50px
+
+        // Solidify the frosted header once scrolled past the hero edge
         if (currentScroll > 50) {
-            header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+            header.classList.add('scrolled');
         } else {
-            header.style.boxShadow = 'none';
+            header.classList.remove('scrolled');
         }
     });
     
