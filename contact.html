@@ -48,7 +48,7 @@
         <!-- ========================================
              HERO SECTION - Small hero for contact page
              ======================================== -->
-        <section class="hero hero-small">
+        <section class="hero hero-small hero-contact">
             <div class="hero-background" style="background-image: url(/assets/20191109_162208.webp);"></div>
             <div class="hero-overlay"></div>
             <div class="container">
@@ -80,7 +80,7 @@
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                                 <circle cx="12" cy="10" r="3"/>
                             </svg>
-                            <p>No 5 webilor street beside Mtn office Rumuokwurushi, Port Harcourt, Nigeria</p>
+                            <p>No 5 Webilor Street, beside MTN office, Rumuokwurushi, Port Harcourt, Nigeria</p>
                         </div>
 
                         <div class="contact-detail">
@@ -136,9 +136,7 @@
 
                     <!-- Right: Google Map -->
                     <div class="contact-map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.5395930231953!2d7.058296911111362!3d4.848812895106482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069cd652
-                        c8030d%3A0xdfa05e237b0cbde9!2s5%20Webilor%20St%2C%20Rumuibekwe%2C%20Rumurolu%20500102%2C%20Rivers!5e0!3m2!1sen!2sng!4v1768317767978!5m2!1sen!2sng" width="600" height="450" style="border:0;
-                        " allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://maps.google.com/maps?q=Rumuokwurushi,%20Port%20Harcourt,%20Rivers%20State,%20Nigeria&t=&z=15&ie=UTF8&iwloc=&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Kenoc Nigeria Limited — Rumuokwurushi, Port Harcourt"></iframe>
                         </div>
                         <!-- Example iframe (uncomment and add your embed URL):
                         <iframe 
@@ -197,76 +195,56 @@ Kenoc Nigeria Limited">
         <!-- Honeypot field (spam protection - keep hidden) -->
         <input type="text" name="_honey" style="display:none">
 
-        <!-- Full Name -->
-        <div class="form-group">
-            <input 
-                type="text" 
-                id="fullName" 
-                name="Full Name" 
-                placeholder="Full Name" 
-                required
-            >
+        <!-- Name + Company -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="Full Name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="companyName">Company Name <span class="optional">(optional)</span></label>
+                <input type="text" id="companyName" name="Company Name" placeholder="Your company">
+            </div>
         </div>
 
-        <!-- Company Name -->
-        <div class="form-group">
-            <input 
-                type="text" 
-                id="companyName" 
-                name="Company Name" 
-                placeholder="Company Name (optional)"
-            >
+        <!-- Email + Phone -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="Email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="Phone" placeholder="e.g. 0803 675 2355" required>
+            </div>
         </div>
 
-        <!-- Email Address -->
+        <!-- Service -->
         <div class="form-group">
-            <input 
-                type="email" 
-                id="email" 
-                name="Email" 
-                placeholder="Email Address" 
-                required
-            >
-        </div>
-
-        <!-- Phone Number -->
-        <div class="form-group">
-            <input 
-                type="tel" 
-                id="phone" 
-                name="Phone" 
-                placeholder="Phone Number" 
-                required
-            >
-        </div>
-
-        <!-- Service Selection -->
-        <div class="form-group">
+            <label for="service">Service Required</label>
             <select id="service" name="Service Interested In" required>
                 <option value="" disabled selected>Select a service requirement</option>
                 <option value="Engine Maintenance">Engine Maintenance</option>
                 <option value="Equipment Servicing">Equipment Servicing</option>
-                <option value="Generator & Power Systems">Generator & Power Systems</option>
+                <option value="Generator &amp; Power Systems">Generator &amp; Power Systems</option>
                 <option value="Technical Support">Technical Support</option>
                 <option value="Equipment Supply">Equipment Supply</option>
-                <option value="Inspection & Maintenance">Inspection & Maintenance</option>
+                <option value="Inspection &amp; Maintenance">Inspection &amp; Maintenance</option>
                 <option value="General Enquiry">General Enquiry</option>
             </select>
         </div>
 
         <!-- Message -->
         <div class="form-group">
-            <textarea 
-                id="message" 
-                name="Message" 
-                rows="6" 
-                placeholder="Briefly describe your service requirement" 
-                required
-            ></textarea>
+            <label for="message">Message</label>
+            <textarea id="message" name="Message" rows="6" placeholder="Briefly describe your service requirement" required></textarea>
         </div>
 
         <!-- Reassurance Text -->
         <p class="form-reassurance">We respond to all enquiries within 24 hours. Your information is kept confidential.</p>
+
+        <!-- Inline error message (shown only if submission fails) -->
+        <p class="form-error" id="formError" role="alert" hidden>Sorry, something went wrong sending your message. Please try again, or email us directly at <a href="mailto:kenocnigerialtd@yahoo.com">kenocnigerialtd@yahoo.com</a>.</p>
 
         <!-- Submit Button with Loading Spinner -->
         <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
@@ -328,8 +306,8 @@ Kenoc Nigeria Limited">
                     <h4>Contact Info</h4>
                     <ul class="footer-contact">
                         <li>
-                            No 5 webilor street beside Mtn
-                            office Rumuokwurushi , Port Harcourt
+                            No 5 Webilor Street, beside MTN
+                            office, Rumuokwurushi, Port Harcourt
                         </li>
                         <li>Rivers State, Nigeria</li>
                         <li><a href="tel:+2348036752355">0803 675 2355</a>, <a href="tel:+2348052123932">0805 212 3932</a></li>

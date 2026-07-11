@@ -183,50 +183,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     const successMessage = document.getElementById('successMessage');
     const submitBtn = document.getElementById('submitBtn');
+    const formError = document.getElementById('formError');
+
+    // Reveal the inline error message, or fall back to an alert if it's missing
+    function showFormError() {
+        if (formError) {
+            formError.hidden = false;
+            formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            alert('There was a problem submitting your form. Please try again or contact us directly at kenocnigerialtd@yahoo.com');
+        }
+    }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
+            if (formError) formError.hidden = true;
+
             // Show loading spinner and disable button
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
-            
-            // Get form data
+
             const formData = new FormData(contactForm);
-            
-            // Submit via fetch to FormSubmit
-            fetch(contactForm.action, {
+
+            // FormSubmit's AJAX endpoint is CORS-enabled and returns JSON,
+            // which is the reliable way to submit via fetch. Derived from the
+            // form's action so the no-JS fallback POST still works.
+            const ajaxUrl = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+            fetch(ajaxUrl, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
-            .then(response => {
-                // Remove loading state
+            .then(function(response) {
+                return response.json()
+                    .catch(function() { return {}; })
+                    .then(function(data) { return { ok: response.ok, data: data }; });
+            })
+            .then(function(result) {
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
-                
-                if (response.ok) {
-                    // Hide form and show success message
+
+                var delivered = result.ok && (result.data.success === true || result.data.success === 'true');
+                if (delivered) {
                     contactForm.classList.add('hidden');
                     successMessage.classList.add('show');
-                    
-                    // Scroll to success message smoothly
                     successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
-                    // Show error alert
-                    alert('There was a problem submitting your form. Please try again or contact us directly at kenocnigerialtd@yahoo.com');
+                    showFormError();
                 }
             })
-            .catch(error => {
-                // Remove loading state on error
+            .catch(function(error) {
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
-                
-                // Show error alert
-                alert('There was a problem submitting your form. Please try again or contact us directly at kenocnigerialtd@yahoo.com');
+                showFormError();
                 console.error('Form submission error:', error);
             });
         });
