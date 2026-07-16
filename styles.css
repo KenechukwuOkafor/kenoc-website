@@ -1100,6 +1100,10 @@ ul {
     margin-bottom: 32px;
 }
 
+.contact-info-box .contact-detail + h2 {
+    margin-top: 40px;
+}
+
 
 .contact-info-box h3 {
     font-size: 20px;
